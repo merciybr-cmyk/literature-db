@@ -1,13 +1,14 @@
 import { useMemo, useState } from 'react'
-import { topWorksAcrossCurricula } from '../utils/computeStats'
 import WorkDetailModal from '../components/search/WorkDetailModal'
 
 const CURRICULUM_ORDER = ['1차', '2차', '3차', '4차', '5차', '6차', '7차']
+const GENRES = ['시', '소설', '수필', '시조', '고전산문', '고전운문', '극본']
 
 export default function DuplicatesPage({ works }) {
   const [selectedWork, setSelectedWork] = useState(null)
+  const [activeGenre, setActiveGenre] = useState('')
 
-  const rows = useMemo(() => {
+  const allRows = useMemo(() => {
     const map = {}
     works.forEach(w => {
       const key = `${w['작품명']}__${w._authorBase}`
@@ -25,14 +26,51 @@ export default function DuplicatesPage({ works }) {
       }))
   }, [works])
 
+  const genreCounts = useMemo(() => {
+    const counts = {}
+    allRows.forEach(r => { counts[r.장르] = (counts[r.장르] || 0) + 1 })
+    return counts
+  }, [allRows])
+
+  const rows = activeGenre ? allRows.filter(r => r.장르 === activeGenre) : allRows
+
   return (
     <>
       <main className="max-w-7xl mx-auto px-4 py-6">
-        <div className="mb-4 flex items-center justify-between">
-          <div>
-            <h2 className="text-base font-semibold text-gray-800">중복 수록 작품 목록</h2>
-            <p className="text-sm text-gray-500 mt-0.5">2개 이상의 교육과정에 수록된 작품 · 교육과정 수 내림차순 · 총 <strong>{rows.length}</strong>편</p>
-          </div>
+        <div className="mb-4">
+          <h2 className="text-base font-semibold text-gray-800">중복 수록 작품 목록</h2>
+          <p className="text-sm text-gray-500 mt-0.5">
+            2개 이상의 교육과정에 수록된 작품 · 교육과정 수 내림차순 ·{' '}
+            총 <strong>{rows.length}</strong>편
+            {activeGenre && ` (전체 ${allRows.length}편 중)`}
+          </p>
+        </div>
+
+        {/* 장르 필터 버튼 */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          <button
+            onClick={() => setActiveGenre('')}
+            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+              activeGenre === ''
+                ? 'bg-gray-800 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            전체 ({allRows.length})
+          </button>
+          {GENRES.filter(g => genreCounts[g]).map(g => (
+            <button
+              key={g}
+              onClick={() => setActiveGenre(g === activeGenre ? '' : g)}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                activeGenre === g
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+              }`}
+            >
+              {g} ({genreCounts[g]})
+            </button>
+          ))}
         </div>
 
         <div className="rounded-lg border border-gray-200 overflow-hidden">
