@@ -19,7 +19,7 @@ export default function GenrePieChart({ works, onSliceClick }) {
             cy="50%"
             outerRadius={85}
             cursor="pointer"
-            onClick={entry => onSliceClick({ genre: entry.name })}
+            onClick={entry => onSliceClick({ genre: [entry.name] })}
           >
             {data.map((_, i) => (
               <Cell key={i} fill={COLORS[i % COLORS.length]} />
