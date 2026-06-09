@@ -6,7 +6,7 @@ export function filterWorks(works, { curriculum = [], division = [], genre = [],
     if (grade.length && !grade.includes(work['학년'])) return false
     if (query) {
       const q = query.toLowerCase()
-      if (!work['작품명'].toLowerCase().includes(q) && !work._authorBase.toLowerCase().includes(q)) return false
+      if (!work['작품명'].toLowerCase().includes(q) && !(work._authorBase ?? '').toLowerCase().includes(q)) return false
     }
     return true
   })
