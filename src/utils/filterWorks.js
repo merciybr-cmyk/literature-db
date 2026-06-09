@@ -1,14 +1,12 @@
-export function filterWorks(works, { curriculum = '', division = '', genre = '', grade = '', query = '' } = {}) {
+export function filterWorks(works, { curriculum = [], division = [], genre = [], grade = [], query = '' } = {}) {
   return works.filter(work => {
-    if (curriculum && work['교육과정'] !== curriculum) return false
-    if (division && work['구분'] !== division) return false
-    if (genre && work['장르'] !== genre) return false
-    if (grade && work['학년'] !== grade) return false
+    if (curriculum.length && !curriculum.includes(work['교육과정'])) return false
+    if (division.length && !division.includes(work['구분'])) return false
+    if (genre.length && !genre.includes(work['장르'])) return false
+    if (grade.length && !grade.includes(work['학년'])) return false
     if (query) {
       const q = query.toLowerCase()
-      const titleMatch = work['작품명'].toLowerCase().includes(q)
-      const authorMatch = work._authorBase.toLowerCase().includes(q)
-      if (!titleMatch && !authorMatch) return false
+      if (!work['작품명'].toLowerCase().includes(q) && !work._authorBase.toLowerCase().includes(q)) return false
     }
     return true
   })

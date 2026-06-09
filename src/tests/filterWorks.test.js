@@ -11,20 +11,38 @@ describe('filterWorks', () => {
   it('필터 없으면 전체 반환', () => {
     expect(filterWorks(WORKS, {})).toHaveLength(3)
   })
-  it('교육과정 필터', () => {
-    const result = filterWorks(WORKS, { curriculum: '1차' })
+
+  it('교육과정 필터 - 빈 배열은 전체 반환', () => {
+    expect(filterWorks(WORKS, { curriculum: [] })).toHaveLength(3)
+  })
+  it('교육과정 필터 - 단일 선택', () => {
+    const result = filterWorks(WORKS, { curriculum: ['1차'] })
     expect(result).toHaveLength(1)
     expect(result[0]['작품명']).toBe('산유화')
   })
-  it('구분 필터', () => {
-    expect(filterWorks(WORKS, { division: '고등' })).toHaveLength(1)
+  it('교육과정 필터 - 다중 선택 (OR)', () => {
+    const result = filterWorks(WORKS, { curriculum: ['1차', '2차'] })
+    expect(result).toHaveLength(2)
   })
-  it('장르 필터', () => {
-    expect(filterWorks(WORKS, { genre: '시' })).toHaveLength(2)
+
+  it('구분 필터 - 단일 선택', () => {
+    expect(filterWorks(WORKS, { division: ['고등'] })).toHaveLength(1)
   })
-  it('학년 필터', () => {
-    expect(filterWorks(WORKS, { grade: '2' })).toHaveLength(1)
+  it('구분 필터 - 다중 선택', () => {
+    expect(filterWorks(WORKS, { division: ['중등', '고등'] })).toHaveLength(3)
   })
+
+  it('장르 필터 - 단일 선택', () => {
+    expect(filterWorks(WORKS, { genre: ['시'] })).toHaveLength(2)
+  })
+  it('장르 필터 - 다중 선택', () => {
+    expect(filterWorks(WORKS, { genre: ['시', '소설'] })).toHaveLength(3)
+  })
+
+  it('학년 필터 - 단일 선택', () => {
+    expect(filterWorks(WORKS, { grade: ['2'] })).toHaveLength(1)
+  })
+
   it('작품명 텍스트 검색 (부분 일치)', () => {
     expect(filterWorks(WORKS, { query: '산유' })).toHaveLength(1)
   })
@@ -33,8 +51,12 @@ describe('filterWorks', () => {
     expect(result).toHaveLength(1)
     expect(result[0]['작품명']).toBe('가지 않은 길')
   })
-  it('복합 필터', () => {
-    expect(filterWorks(WORKS, { genre: '시', division: '중등' })).toHaveLength(2)
+  it('복합 필터 - 장르 + 구분', () => {
+    expect(filterWorks(WORKS, { genre: ['시'], division: ['중등'] })).toHaveLength(2)
+  })
+  it('복합 필터 - 교육과정 다중 + 장르', () => {
+    const result = filterWorks(WORKS, { curriculum: ['1차', '3차'], genre: ['시'] })
+    expect(result).toHaveLength(2)
   })
 })
 
