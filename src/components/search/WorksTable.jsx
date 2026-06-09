@@ -12,12 +12,13 @@ const COLUMNS = [
   { key: '지은이', label: '지은이' },
 ]
 
-const PAGE_SIZE = 20
+const PAGE_SIZES = [20, 50, 100]
 
 export default function WorksTable({ works, allWorks, selectedCurricula = [] }) {
   const [sortKey, setSortKey] = useState(null)
   const [sortDir, setSortDir] = useState('asc')
   const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(20)
   const [selectedWork, setSelectedWork] = useState(null)
 
   useEffect(() => { setPage(1) }, [works])
@@ -53,8 +54,8 @@ export default function WorksTable({ works, allWorks, selectedCurricula = [] }) 
       })
     : works
 
-  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE))
-  const pageWorks = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize))
+  const pageWorks = sorted.slice((page - 1) * pageSize, page * pageSize)
 
   const pageNumbers = () => {
     const range = []
@@ -119,17 +120,27 @@ export default function WorksTable({ works, allWorks, selectedCurricula = [] }) 
           </table>
         </div>
 
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-1 mt-4">
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-2 py-1 text-sm border rounded disabled:opacity-40 hover:bg-gray-50">‹</button>
-            {page > 3 && <span className="px-1 text-gray-400 text-sm">…</span>}
-            {pageNumbers().map(p => (
-              <button key={p} onClick={() => setPage(p)} className={`px-2.5 py-1 text-sm border rounded ${page === p ? 'bg-blue-600 text-white border-blue-600' : 'hover:bg-gray-50'}`}>{p}</button>
-            ))}
-            {page < totalPages - 2 && <span className="px-1 text-gray-400 text-sm">…</span>}
-            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-2 py-1 text-sm border rounded disabled:opacity-40 hover:bg-gray-50">›</button>
-          </div>
-        )}
+        <div className="flex items-center justify-between mt-4">
+          <select
+            value={pageSize}
+            onChange={e => { setPageSize(Number(e.target.value)); setPage(1) }}
+            className="border border-gray-300 rounded px-2 py-1 text-sm bg-white text-gray-700"
+          >
+            {PAGE_SIZES.map(s => <option key={s} value={s}>{s}개씩</option>)}
+          </select>
+          {totalPages > 1 && (
+            <div className="flex items-center gap-1">
+              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-2 py-1 text-sm border rounded disabled:opacity-40 hover:bg-gray-50">‹</button>
+              {page > 3 && <span className="px-1 text-gray-400 text-sm">…</span>}
+              {pageNumbers().map(p => (
+                <button key={p} onClick={() => setPage(p)} className={`px-2.5 py-1 text-sm border rounded ${page === p ? 'bg-blue-600 text-white border-blue-600' : 'hover:bg-gray-50'}`}>{p}</button>
+              ))}
+              {page < totalPages - 2 && <span className="px-1 text-gray-400 text-sm">…</span>}
+              <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-2 py-1 text-sm border rounded disabled:opacity-40 hover:bg-gray-50">›</button>
+            </div>
+          )}
+          <div className="w-20" />
+        </div>
 
         <p className="text-xs text-gray-400 mt-2 text-right">작품명 클릭 시 교육과정별 수록 현황 확인</p>
       </div>
