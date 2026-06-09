@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import WorkDetailModal from './WorkDetailModal'
 
 const COLUMNS = [
@@ -14,13 +14,27 @@ const COLUMNS = [
 
 const PAGE_SIZE = 20
 
-export default function WorksTable({ works, allWorks }) {
+export default function WorksTable({ works, allWorks, selectedCurricula = [] }) {
   const [sortKey, setSortKey] = useState(null)
   const [sortDir, setSortDir] = useState('asc')
   const [page, setPage] = useState(1)
   const [selectedWork, setSelectedWork] = useState(null)
 
   useEffect(() => { setPage(1) }, [works])
+
+  const duplicateMap = useMemo(() => {
+    if (selectedCurricula.length < 2) return new Map()
+    const map = new Map()
+    for (const work of works) {
+      const title = work['작품명']
+      if (!map.has(title)) map.set(title, new Set())
+      map.get(title).add(work['교육과정'])
+    }
+    for (const [title, curricula] of map) {
+      if (curricula.size < 2) map.delete(title)
+    }
+    return map
+  }, [works, selectedCurricula])
 
   function handleSort(key) {
     if (sortKey === key) {
@@ -85,7 +99,18 @@ export default function WorksTable({ works, allWorks }) {
                       }`}
                       onClick={col.key === '작품명' ? () => setSelectedWork(work) : undefined}
                     >
-                      {work[col.key]}
+                      {col.key === '작품명' && duplicateMap.has(work['작품명']) ? (
+                        <>
+                          {work[col.key]}
+                          <span className="ml-1.5 inline-flex gap-0.5">
+                            {[...duplicateMap.get(work['작품명'])].map(c => (
+                              <span key={c} className="text-xs bg-amber-100 text-amber-700 px-1 rounded font-normal">
+                                {c}
+                              </span>
+                            ))}
+                          </span>
+                        </>
+                      ) : work[col.key]}
                     </td>
                   ))}
                 </tr>
