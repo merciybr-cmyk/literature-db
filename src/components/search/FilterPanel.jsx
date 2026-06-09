@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { getUniqueValues } from '../../utils/filterWorks'
+import MultiSelectDropdown from './MultiSelectDropdown'
 
 const CURRICULA = ['1차', '2차', '3차', '4차', '5차', '6차', '7차']
 const GENRES = ['시', '소설', '수필', '시조', '고전산문', '고전운문', '극본']
@@ -27,14 +28,11 @@ export default function FilterPanel({ works, filters, onChange }) {
       {FILTER_CONFIGS.map(({ key, label, options }) => (
         <div key={key} className="flex flex-col gap-1">
           <label className="text-xs text-gray-500 font-medium">{label}</label>
-          <select
-            value={filters[key] || ''}
-            onChange={e => update(key, e.target.value)}
-            className="border border-gray-300 rounded px-2 py-1.5 text-sm min-w-[90px] bg-white"
-          >
-            <option value="">전체</option>
-            {options.map(o => <option key={o} value={o}>{o}</option>)}
-          </select>
+          <MultiSelectDropdown
+            options={options}
+            value={filters[key] || []}
+            onChange={v => update(key, v)}
+          />
         </div>
       ))}
     </div>
