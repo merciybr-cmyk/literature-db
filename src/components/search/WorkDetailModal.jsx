@@ -58,7 +58,7 @@ export default function WorkDetailModal({ work, allWorks, onClose }) {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 sticky top-0">
               <tr>
-                {['교육과정', '구분', '학년', '학기', '교과서명'].map(col => (
+                {['교육과정', '체제', '구분', '학년', '학기', '교과서명', '출판사'].map(col => (
                   <th key={col} className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 whitespace-nowrap">
                     {col}
                   </th>
@@ -69,10 +69,12 @@ export default function WorkDetailModal({ work, allWorks, onClose }) {
               {occurrences.map((w, i) => (
                 <tr key={i} className={w === work ? 'bg-blue-50' : 'hover:bg-gray-50'}>
                   <td className="px-4 py-2.5 font-medium text-blue-700">{w['교육과정']}</td>
+                  <td className="px-4 py-2.5 text-gray-600">{w['체제']}</td>
                   <td className="px-4 py-2.5 text-gray-600">{w['구분']}</td>
                   <td className="px-4 py-2.5 text-gray-600">{w['학년']}</td>
                   <td className="px-4 py-2.5 text-gray-600">{w['학기']}</td>
                   <td className="px-4 py-2.5 text-gray-600">{w['교과서명']}</td>
+                  <td className="px-4 py-2.5 text-gray-600">{w['출판사']}</td>
                 </tr>
               ))}
             </tbody>

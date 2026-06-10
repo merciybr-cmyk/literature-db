@@ -5,7 +5,7 @@ import WorksTable from '../components/search/WorksTable'
 import ExportButton from '../components/search/ExportButton'
 import { filterWorks } from '../utils/filterWorks'
 
-const INITIAL_FILTERS = { curriculum: [], division: [], genre: [], grade: [], query: '' }
+const INITIAL_FILTERS = { curriculum: [], division: [], genre: [], grade: [], system: [], publisher: [], query: '' }
 
 export default function SearchPage({ works, initialFilters, onFiltersApplied }) {
   const [filters, setFilters] = useState(INITIAL_FILTERS)

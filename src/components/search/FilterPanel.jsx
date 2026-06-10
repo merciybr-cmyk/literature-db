@@ -11,6 +11,8 @@ export default function FilterPanel({ works, filters, onChange }) {
     () => getUniqueValues(works, '학년').filter(g => g !== 'X'),
     [works]
   )
+  const systems = useMemo(() => getUniqueValues(works, '체제'), [works])
+  const publishers = useMemo(() => getUniqueValues(works, '출판사'), [works])
 
   function update(key, value) {
     onChange({ ...filters, [key]: value })
@@ -18,9 +20,11 @@ export default function FilterPanel({ works, filters, onChange }) {
 
   const FILTER_CONFIGS = [
     { key: 'curriculum', label: '교육과정', options: CURRICULA },
+    { key: 'system', label: '체제', options: systems },
     { key: 'division', label: '구분', options: DIVISIONS },
     { key: 'genre', label: '장르', options: GENRES },
     { key: 'grade', label: '학년', options: grades },
+    { key: 'publisher', label: '출판사', options: publishers },
   ]
 
   return (
