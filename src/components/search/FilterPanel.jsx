@@ -24,18 +24,19 @@ export default function FilterPanel({ works, filters, onChange }) {
     { key: 'division', label: '구분', options: DIVISIONS },
     { key: 'genre', label: '장르', options: GENRES },
     { key: 'grade', label: '학년', options: grades },
-    { key: 'publisher', label: '출판사', options: publishers },
+    { key: 'publisher', label: '출판사', options: publishers, panelClassName: 'w-52' },
   ]
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4 flex flex-wrap gap-4">
-      {FILTER_CONFIGS.map(({ key, label, options }) => (
+      {FILTER_CONFIGS.map(({ key, label, options, panelClassName }) => (
         <div key={key} className="flex flex-col gap-1">
           <label className="text-xs text-gray-500 font-medium">{label}</label>
           <MultiSelectDropdown
             options={options}
             value={filters[key] || []}
             onChange={v => update(key, v)}
+            panelClassName={panelClassName}
           />
         </div>
       ))}

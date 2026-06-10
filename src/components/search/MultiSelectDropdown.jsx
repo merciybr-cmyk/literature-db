@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-export default function MultiSelectDropdown({ options, value, onChange }) {
+export default function MultiSelectDropdown({ options, value, onChange, panelClassName = '' }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
 
@@ -38,7 +38,7 @@ export default function MultiSelectDropdown({ options, value, onChange }) {
         <span className="text-gray-400 text-xs">{open ? '▲' : '▼'}</span>
       </button>
       {open && (
-        <div className="absolute z-20 mt-1 bg-white border border-gray-200 rounded shadow-md min-w-[110px]">
+        <div className={`absolute z-20 mt-1 bg-white border border-gray-200 rounded shadow-md min-w-[110px] ${panelClassName}`}>
           {value.length > 0 && (
             <button
               type="button"
@@ -52,14 +52,15 @@ export default function MultiSelectDropdown({ options, value, onChange }) {
             <label
               key={option}
               className="flex items-center gap-2 px-3 py-1.5 text-sm cursor-pointer hover:bg-blue-50"
+              title={option}
             >
               <input
                 type="checkbox"
                 checked={value.includes(option)}
                 onChange={() => toggle(option)}
-                className="accent-blue-600"
+                className="accent-blue-600 shrink-0"
               />
-              {option}
+              <span className="line-clamp-2">{option}</span>
             </label>
           ))}
         </div>
