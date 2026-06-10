@@ -60,7 +60,7 @@ export default function MultiSelectDropdown({ options, value, onChange, panelCla
                 onChange={() => toggle(option)}
                 className="accent-blue-600 shrink-0"
               />
-              <span className="line-clamp-2">{option}</span>
+              <span className="whitespace-nowrap">{option}</span>
             </label>
           ))}
         </div>

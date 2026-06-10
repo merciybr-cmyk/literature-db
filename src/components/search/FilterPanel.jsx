@@ -24,7 +24,7 @@ export default function FilterPanel({ works, filters, onChange }) {
     { key: 'division', label: '구분', options: DIVISIONS },
     { key: 'genre', label: '장르', options: GENRES },
     { key: 'grade', label: '학년', options: grades },
-    { key: 'publisher', label: '출판사', options: publishers, panelClassName: 'w-52' },
+    { key: 'publisher', label: '출판사', options: publishers, panelClassName: 'w-max' },
   ]
 
   return (
