@@ -3,6 +3,7 @@ import NavBar from './components/NavBar'
 import SearchPage from './pages/SearchPage'
 import StatsPage from './pages/StatsPage'
 import DuplicatesPage from './pages/DuplicatesPage'
+import ComparePage from './pages/ComparePage'
 import { useWorks } from './hooks/useWorks'
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
       {activePage === 'search' && <SearchPage works={works} initialFilters={pendingFilters} onFiltersApplied={() => setPendingFilters(null)} />}
       {activePage === 'stats' && <StatsPage works={works} onNavigateToSearch={navigateToSearch} />}
       {activePage === 'duplicates' && <DuplicatesPage works={works} />}
+      {activePage === 'compare' && <ComparePage works={works} />}
     </div>
   )
 }

@@ -16,9 +16,22 @@ function parseCSVLine(line) {
   return result
 }
 
+import { toChosung } from './chosung.js'
+
 export function extractAuthorBase(author) {
   if (!author) return ''
   return author.replace(/\(.*?\)/g, '').trim()
+}
+
+// 검색용 파생 필드(작가 기준명·초성)를 작품 객체에 부여한다.
+export function withDerivedFields(work) {
+  const authorBase = extractAuthorBase(work['지은이'])
+  return {
+    ...work,
+    _authorBase: authorBase,
+    _titleChosung: toChosung(work['작품명']),
+    _authorChosung: toChosung(authorBase),
+  }
 }
 
 export function parseCSV(csvText) {
@@ -31,7 +44,6 @@ export function parseCSV(csvText) {
     headers.forEach((header, i) => {
       work[header] = values[i] || ''
     })
-    work._authorBase = extractAuthorBase(work['지은이'])
-    return work
+    return withDerivedFields(work)
   }).filter(w => w['작품명'])
 }

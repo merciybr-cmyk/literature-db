@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import FilterPanel from '../components/search/FilterPanel'
 import SearchBar from '../components/search/SearchBar'
+import ActiveFilters from '../components/search/ActiveFilters'
 import WorksTable from '../components/search/WorksTable'
 import ExportButton from '../components/search/ExportButton'
 import { filterWorks } from '../utils/filterWorks'
@@ -31,6 +32,7 @@ export default function SearchPage({ works, initialFilters, onFiltersApplied }) 
         onChange={q => setFilters(f => ({ ...f, query: q }))}
         onReset={handleReset}
       />
+      <ActiveFilters filters={filters} onChange={setFilters} />
       <div className="flex justify-between items-center">
         <span className="text-sm text-gray-600">
           검색 결과 <strong className="text-gray-900">{filtered.length.toLocaleString()}</strong>건

@@ -72,7 +72,8 @@ export default function WorksTable({ works, allWorks, selectedCurricula = [] }) 
   return (
     <>
       <div>
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
+        {/* 데스크톱: 표 */}
+        <div className="hidden md:block overflow-x-auto rounded-lg border border-gray-200">
           <table className="w-full text-sm">
             <thead className="bg-sky-100 border-b border-sky-200">
               <tr>
@@ -118,6 +119,35 @@ export default function WorksTable({ works, allWorks, selectedCurricula = [] }) 
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* 모바일: 카드 */}
+        <div className="md:hidden flex flex-col gap-2">
+          {pageWorks.map((work, i) => (
+            <div key={i} className="rounded-lg border border-gray-200 p-3">
+              <button
+                onClick={() => setSelectedWork(work)}
+                className="text-blue-600 font-medium hover:underline text-left"
+              >
+                {work['작품명']}
+              </button>
+              {duplicateMap.has(work['작품명']) && (
+                <span className="ml-1.5 inline-flex gap-0.5 align-middle">
+                  {[...duplicateMap.get(work['작품명'])].map(c => (
+                    <span key={c} className="text-xs bg-amber-100 text-amber-700 px-1 rounded">{c}</span>
+                  ))}
+                </span>
+              )}
+              <p className="text-sm text-gray-600 mt-0.5">
+                {work['지은이'] || '작가 미상'} · {work['장르']}
+              </p>
+              <div className="flex flex-wrap gap-1.5 mt-1.5 text-xs text-gray-500">
+                <span className="px-1.5 py-0.5 bg-sky-50 text-sky-700 rounded border border-sky-100">{work['교육과정']}</span>
+                {work['교과서명'] && <span>{work['교과서명']}</span>}
+                {work['출판사'] && <span>· {work['출판사']}</span>}
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="flex items-center justify-between mt-4">

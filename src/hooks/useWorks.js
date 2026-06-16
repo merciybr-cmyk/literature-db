@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { parseCSV, extractAuthorBase } from '../utils/parseCSV'
+import { parseCSV, withDerivedFields } from '../utils/parseCSV'
 
 const SHEETS_URL = import.meta.env.VITE_SHEETS_CSV_URL
 const IS_PROD = import.meta.env.PROD
@@ -23,7 +23,7 @@ export function useWorks() {
       .then(text => {
         const data = isCSV
           ? parseCSV(text)
-          : JSON.parse(text).map(w => ({ ...w, _authorBase: extractAuthorBase(w['지은이']) }))
+          : JSON.parse(text).map(withDerivedFields)
         setWorks(data)
         setLoading(false)
       })

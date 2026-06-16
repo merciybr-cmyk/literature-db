@@ -3,7 +3,7 @@ export default function NavBar({ activePage, onNavigate }) {
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-10">
       <div className="max-w-7xl mx-auto px-4 flex items-center gap-2 h-14">
         <span className="font-bold text-gray-800 mr-4 text-base">📚 교과서 문학 작품 DB</span>
-        {[['search', '검색·탐색'], ['duplicates', '중복 수록'], ['stats', '통계']].map(([page, label]) => (
+        {[['search', '검색·탐색'], ['duplicates', '중복 수록'], ['compare', '교육과정 비교'], ['stats', '통계']].map(([page, label]) => (
           <button
             key={page}
             onClick={() => onNavigate(page)}
