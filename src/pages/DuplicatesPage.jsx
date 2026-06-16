@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react'
 import WorkDetailModal from '../components/search/WorkDetailModal'
 
-const CURRICULUM_ORDER = ['1차', '2차', '3차', '4차', '5차', '6차', '7차']
+const CURRICULUM_ORDER = ['1차', '2차', '3차', '4차', '5차', '6차', '7차', '2007개정', '2009개정', '2015개정', '2022개정']
 const GENRES = ['시', '소설', '수필', '시조', '고전산문', '고전운문', '극본']
 
 export default function DuplicatesPage({ works }) {
   const [selectedWork, setSelectedWork] = useState(null)
+  const [focusCurriculum, setFocusCurriculum] = useState('')
   const [activeGenre, setActiveGenre] = useState('')
 
   const allRows = useMemo(() => {
@@ -73,7 +74,7 @@ export default function DuplicatesPage({ works }) {
           ))}
         </div>
 
-        <div className="rounded-lg border border-gray-200 overflow-hidden">
+        <div className="rounded-lg border border-gray-200 overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
@@ -90,15 +91,16 @@ export default function DuplicatesPage({ works }) {
               {rows.map((row, i) => (
                 <tr key={i} className="hover:bg-blue-50 transition-colors">
                   <td className="px-3 py-2 text-gray-400 text-xs">{i + 1}</td>
-                  <td className="px-3 py-2">
+                  <td className="px-3 py-2 max-w-[14rem]">
                     <button
                       onClick={() => setSelectedWork(row)}
-                      className="text-blue-600 hover:underline font-medium text-left"
+                      title={row.작품명}
+                      className="text-blue-600 hover:underline font-medium text-left truncate block w-full"
                     >
                       {row.작품명}
                     </button>
                   </td>
-                  <td className="px-3 py-2 text-gray-600 whitespace-nowrap">{row.지은이}</td>
+                  <td className="px-3 py-2 text-gray-600 max-w-[9rem] truncate" title={row.지은이}>{row.지은이}</td>
                   <td className="px-3 py-2 text-gray-500 whitespace-nowrap">{row.장르}</td>
                   <td className="px-3 py-2 text-center">
                     <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${
@@ -110,9 +112,16 @@ export default function DuplicatesPage({ works }) {
                     </span>
                   </td>
                   <td className="px-3 py-2">
-                    <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-nowrap gap-1 whitespace-nowrap">
                       {row.curriculaList.map(c => (
-                        <span key={c} className="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-xs rounded border border-blue-100">{c}</span>
+                        <button
+                          key={c}
+                          onClick={() => { setFocusCurriculum(c); setSelectedWork(row) }}
+                          title={`${c} 수록 교과서 보기`}
+                          className="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-xs rounded border border-blue-100 hover:bg-blue-100 cursor-pointer"
+                        >
+                          {c}
+                        </button>
                       ))}
                     </div>
                   </td>
@@ -128,7 +137,8 @@ export default function DuplicatesPage({ works }) {
         <WorkDetailModal
           work={{ 작품명: selectedWork.작품명, 지은이: selectedWork.지은이, 장르: selectedWork.장르, _authorBase: selectedWork._authorBase }}
           allWorks={works}
-          onClose={() => setSelectedWork(null)}
+          focusCurriculum={focusCurriculum}
+          onClose={() => { setSelectedWork(null); setFocusCurriculum('') }}
         />
       )}
     </>

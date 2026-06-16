@@ -1,8 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-const CURRICULUM_ORDER = ['1차', '2차', '3차', '4차', '5차', '6차', '7차']
+const CURRICULUM_ORDER = ['1차', '2차', '3차', '4차', '5차', '6차', '7차', '2007개정', '2009개정', '2015개정', '2022개정']
 
-export default function WorkDetailModal({ work, allWorks, onClose }) {
+export default function WorkDetailModal({ work, allWorks, onClose, focusCurriculum = '' }) {
+  const [activeCurriculum, setActiveCurriculum] = useState(focusCurriculum)
+
   // 같은 작품명 + 같은 작가(괄호 앞 기준)의 전체 수록 목록
   const occurrences = allWorks
     .filter(w => w['작품명'] === work['작품명'] && w._authorBase === work._authorBase)
@@ -13,6 +15,9 @@ export default function WorkDetailModal({ work, allWorks, onClose }) {
     })
 
   const curricula = [...new Set(occurrences.map(w => w['교육과정']))]
+  const rows = activeCurriculum
+    ? occurrences.filter(w => w['교육과정'] === activeCurriculum)
+    : occurrences
 
   useEffect(() => {
     function onKeyDown(e) {
@@ -44,12 +49,38 @@ export default function WorkDetailModal({ work, allWorks, onClose }) {
           {curricula.length > 1 ? (
             <p className="text-sm text-blue-700">
               <strong>{curricula.length}개 교육과정</strong>에 걸쳐 총 <strong>{occurrences.length}회</strong> 수록
-              <span className="ml-2 text-blue-500">({curricula.join(', ')})</span>
             </p>
           ) : (
             <p className="text-sm text-gray-500">
               <strong>{curricula[0]}</strong>에 1회 수록
             </p>
+          )}
+          {curricula.length > 1 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              <button
+                onClick={() => setActiveCurriculum('')}
+                className={`px-2 py-0.5 text-xs rounded-full border transition-colors ${
+                  activeCurriculum === ''
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'bg-white text-blue-600 border-blue-200 hover:bg-blue-100'
+                }`}
+              >
+                전체
+              </button>
+              {curricula.map(c => (
+                <button
+                  key={c}
+                  onClick={() => setActiveCurriculum(c)}
+                  className={`px-2 py-0.5 text-xs rounded-full border transition-colors ${
+                    activeCurriculum === c
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-blue-600 border-blue-200 hover:bg-blue-100'
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
           )}
         </div>
 
@@ -66,7 +97,7 @@ export default function WorkDetailModal({ work, allWorks, onClose }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {occurrences.map((w, i) => (
+              {rows.map((w, i) => (
                 <tr key={i} className={w === work ? 'bg-blue-50' : 'hover:bg-gray-50'}>
                   <td className="px-4 py-2.5 font-medium text-blue-700">{w['교육과정']}</td>
                   <td className="px-4 py-2.5 text-gray-600">{w['체제']}</td>

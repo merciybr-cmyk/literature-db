@@ -5,13 +5,11 @@ const COLUMNS = [
   { key: '교육과정', label: '교육과정' },
   { key: '체제', label: '체제' },
   { key: '구분', label: '구분' },
-  { key: '학년', label: '학년' },
-  { key: '학기', label: '학기' },
-  { key: '교과서명', label: '교과서명' },
-  { key: '출판사', label: '출판사' },
   { key: '장르', label: '장르' },
   { key: '작품명', label: '작품명' },
   { key: '지은이', label: '지은이' },
+  { key: '교과서명', label: '교과서명' },
+  { key: '출판사', label: '출판사' },
 ]
 
 const PAGE_SIZES = [20, 50, 100]
