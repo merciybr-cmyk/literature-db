@@ -74,13 +74,13 @@ export default function WorksTable({ works, allWorks, selectedCurricula = [] }) 
       <div>
         <div className="overflow-x-auto rounded-lg border border-gray-200">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-sky-100 border-b border-sky-200">
               <tr>
                 {COLUMNS.map(col => (
                   <th
                     key={col.key}
                     onClick={() => handleSort(col.key)}
-                    className="px-3 py-2.5 text-left text-xs font-semibold text-gray-500 cursor-pointer hover:bg-gray-100 whitespace-nowrap select-none"
+                    className="px-3 py-2.5 text-left text-xs font-semibold text-sky-800 cursor-pointer hover:bg-sky-200 whitespace-nowrap select-none"
                   >
                     {col.label}{sortKey === col.key ? (sortDir === 'asc' ? ' ↑' : ' ↓') : ''}
                   </th>

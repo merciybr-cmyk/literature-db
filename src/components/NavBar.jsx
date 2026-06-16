@@ -16,6 +16,11 @@ export default function NavBar({ activePage, onNavigate }) {
             {label}
           </button>
         ))}
+        <img
+          src={`${import.meta.env.BASE_URL}mirae-n_logo.png`}
+          alt="미래엔"
+          className="h-5 w-auto ml-auto"
+        />
       </div>
     </nav>
   )

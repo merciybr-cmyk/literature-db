@@ -74,15 +74,15 @@ export default function DuplicatesPage({ works }) {
 
         <div className="rounded-lg border border-gray-200 overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-sky-100 border-b border-sky-200">
               <tr>
-                <th className="px-3 py-2.5 text-left text-xs font-semibold text-gray-500 w-8">#</th>
-                <th className="px-3 py-2.5 text-left text-xs font-semibold text-gray-500">작품명</th>
-                <th className="px-3 py-2.5 text-left text-xs font-semibold text-gray-500">지은이</th>
-                <th className="px-3 py-2.5 text-left text-xs font-semibold text-gray-500">장르</th>
-                <th className="px-3 py-2.5 text-center text-xs font-semibold text-gray-500 w-20 whitespace-nowrap">교육과정 수</th>
-                <th className="px-3 py-2.5 text-left text-xs font-semibold text-gray-500">수록 교육과정</th>
-                <th className="px-3 py-2.5 text-center text-xs font-semibold text-gray-500 w-16 whitespace-nowrap">총 수록</th>
+                <th className="px-3 py-2.5 text-left text-xs font-semibold text-sky-800 w-8">#</th>
+                <th className="px-3 py-2.5 text-left text-xs font-semibold text-sky-800">작품명</th>
+                <th className="px-3 py-2.5 text-left text-xs font-semibold text-sky-800">지은이</th>
+                <th className="px-3 py-2.5 text-left text-xs font-semibold text-sky-800">장르</th>
+                <th className="px-3 py-2.5 text-center text-xs font-semibold text-sky-800 w-20 whitespace-nowrap">교육과정 수</th>
+                <th className="px-3 py-2.5 text-left text-xs font-semibold text-sky-800">수록 교육과정</th>
+                <th className="px-3 py-2.5 text-center text-xs font-semibold text-sky-800 w-16 whitespace-nowrap">총 수록</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
