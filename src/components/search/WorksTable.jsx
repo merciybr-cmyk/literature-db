@@ -1,5 +1,11 @@
 import { useState, useEffect, useMemo } from 'react'
 import WorkDetailModal from './WorkDetailModal'
+import { CURRICULUM_ORDER } from '../../constants'
+
+const curriculumRank = c => {
+  const i = CURRICULUM_ORDER.indexOf(c)
+  return i === -1 ? CURRICULUM_ORDER.length : i
+}
 
 const COLUMNS = [
   { key: '교육과정', label: '교육과정' },
@@ -47,12 +53,19 @@ export default function WorksTable({ works, allWorks, selectedCurricula = [] }) 
     setPage(1)
   }
 
-  const sorted = sortKey
-    ? [...works].sort((a, b) => {
-        const cmp = (a[sortKey] || '').localeCompare(b[sortKey] || '', 'ko')
-        return sortDir === 'asc' ? cmp : -cmp
-      })
-    : works
+  const sorted = useMemo(() => {
+    const arr = [...works]
+    // 기본 정렬: 교육과정 순
+    if (!sortKey) {
+      return arr.sort((a, b) => curriculumRank(a['교육과정']) - curriculumRank(b['교육과정']))
+    }
+    const dir = sortDir === 'asc' ? 1 : -1
+    // 교육과정 컬럼은 가나다순이 아니라 교육과정 순서로 정렬
+    if (sortKey === '교육과정') {
+      return arr.sort((a, b) => dir * (curriculumRank(a['교육과정']) - curriculumRank(b['교육과정'])))
+    }
+    return arr.sort((a, b) => dir * (a[sortKey] || '').localeCompare(b[sortKey] || '', 'ko'))
+  }, [works, sortKey, sortDir])
 
   const totalPages = Math.max(1, Math.ceil(sorted.length / pageSize))
   const pageWorks = sorted.slice((page - 1) * pageSize, page * pageSize)

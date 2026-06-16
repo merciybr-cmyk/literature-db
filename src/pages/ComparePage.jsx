@@ -18,6 +18,7 @@ export default function ComparePage({ works }) {
   const [bSet, setBSet] = useState(() => curricula.length >= 2 ? [curricula[curricula.length - 1]] : [])
   const [tab, setTab] = useState('onlyB')
   const [viewMode, setViewMode] = useState('list') // list | genre | author
+  const [selectedGenre, setSelectedGenre] = useState('') // 갈래별 보기에서 특정 장르만
   const [selectedWork, setSelectedWork] = useState(null)
 
   const { common, onlyA, onlyB } = useMemo(() => compareCurricula(works, aSet, bSet), [works, aSet, bSet])
@@ -46,6 +47,11 @@ export default function ComparePage({ works }) {
     }
     return [...map.entries()].sort((x, y) => y[1].length - x[1].length || x[0].localeCompare(y[0], 'ko'))
   }, [activeRows, viewMode])
+
+  // 갈래별 보기에서 선택된 장르가 현재 결과에 없으면 '전체'로 간주
+  const genreNames = viewMode === 'genre' && groups ? groups.map(g => g[0]) : []
+  const effectiveGenre = genreNames.includes(selectedGenre) ? selectedGenre : ''
+  const displayGroups = effectiveGenre ? groups.filter(([name]) => name === effectiveGenre) : groups
 
   const VIEW_MODES = [
     { key: 'list', label: '목록' },
@@ -146,7 +152,30 @@ export default function ComparePage({ works }) {
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            {groups.map(([name, items]) => (
+            {viewMode === 'genre' && groups.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedGenre('')}
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                    effectiveGenre === '' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  전체 ({activeRows.length})
+                </button>
+                {groups.map(([name, items]) => (
+                  <button
+                    key={name}
+                    onClick={() => setSelectedGenre(name === effectiveGenre ? '' : name)}
+                    className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                      effectiveGenre === name ? 'bg-sky-600 text-white' : 'bg-sky-50 text-sky-700 hover:bg-sky-100'
+                    }`}
+                  >
+                    {name} ({items.length})
+                  </button>
+                ))}
+              </div>
+            )}
+            {displayGroups.map(([name, items]) => (
               <div key={name} className="rounded-lg border border-gray-200 overflow-hidden">
                 <div className="flex items-center justify-between bg-sky-50 px-3 py-2 border-b border-sky-100">
                   <span className="text-sm font-semibold text-sky-800">{name}</span>
