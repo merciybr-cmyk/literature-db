@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-
-const CURRICULUM_ORDER = ['1차', '2차', '3차', '4차', '5차', '6차', '7차', '2007개정', '2009개정', '2015개정', '2022개정']
+import { CURRICULUM_ORDER } from '../../constants'
 
 export default function WorkDetailModal({ work, allWorks, onClose, focusCurriculum = '' }) {
   const [activeCurriculum, setActiveCurriculum] = useState(focusCurriculum)

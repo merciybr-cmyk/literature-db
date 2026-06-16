@@ -1,8 +1,6 @@
 import { useMemo, useState } from 'react'
 import WorkDetailModal from '../components/search/WorkDetailModal'
-
-const CURRICULUM_ORDER = ['1차', '2차', '3차', '4차', '5차', '6차', '7차', '2007개정', '2009개정', '2015개정', '2022개정']
-const GENRES = ['시', '소설', '수필', '시조', '고전산문', '고전운문', '극본']
+import { GENRES, orderCurricula } from '../constants'
 
 export default function DuplicatesPage({ works }) {
   const [selectedWork, setSelectedWork] = useState(null)
@@ -22,7 +20,7 @@ export default function DuplicatesPage({ works }) {
       .sort((a, b) => b.curricula.size - a.curricula.size || b.count - a.count)
       .map(r => ({
         ...r,
-        curriculaList: CURRICULUM_ORDER.filter(c => r.curricula.has(c)),
+        curriculaList: orderCurricula(r.curricula),
         curriculaCount: r.curricula.size,
       }))
   }, [works])

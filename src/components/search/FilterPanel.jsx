@@ -1,18 +1,13 @@
 import { useMemo } from 'react'
 import { getUniqueValues } from '../../utils/filterWorks'
+import { GENRES, DIVISIONS, orderCurricula } from '../../constants'
 import MultiSelectDropdown from './MultiSelectDropdown'
 
-const CURRICULA_ORDER = ['1차', '2차', '3차', '4차', '5차', '6차', '7차', '2007개정', '2009개정', '2015개정', '2022개정']
-const GENRES = ['시', '소설', '수필', '시조', '고전산문', '고전운문', '극본']
-const DIVISIONS = ['중등', '고등']
-
 export default function FilterPanel({ works, filters, onChange }) {
-  const curricula = useMemo(() => {
-    const inData = new Set(getUniqueValues(works, '교육과정'))
-    const ordered = CURRICULA_ORDER.filter(c => inData.has(c))
-    const rest = [...inData].filter(c => !CURRICULA_ORDER.includes(c)).sort()
-    return [...ordered, ...rest]
-  }, [works])
+  const curricula = useMemo(
+    () => orderCurricula(getUniqueValues(works, '교육과정')),
+    [works]
+  )
   const grades = useMemo(
     () => getUniqueValues(works, '학년').filter(g => g !== 'X'),
     [works]

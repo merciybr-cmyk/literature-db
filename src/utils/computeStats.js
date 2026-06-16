@@ -1,12 +1,4 @@
-const CURRICULUM_ORDER = ['1차', '2차', '3차', '4차', '5차', '6차', '7차', '2007개정', '2009개정', '2015개정', '2022개정']
-const ALL_GENRES = ['시', '소설', '수필', '시조', '고전산문', '고전운문', '극본']
-
-// 정해진 순서대로 정렬하되, 목록에 없는 교육과정은 뒤에 붙여 누락 방지
-function orderCurricula(present) {
-  const ordered = CURRICULUM_ORDER.filter(c => present.has(c))
-  const rest = [...present].filter(c => !CURRICULUM_ORDER.includes(c)).sort()
-  return [...ordered, ...rest]
-}
+import { GENRES as ALL_GENRES, orderCurricula } from '../constants'
 
 export function countByCurriculum(works) {
   const counts = {}
