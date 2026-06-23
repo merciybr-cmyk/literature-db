@@ -1,8 +1,8 @@
 const NAV_ITEMS = [
   ['search', '검색·탐색'],
-  ['authors', '작가별'],
   ['duplicates', '중복 수록'],
   ['compare', '교육과정 비교'],
+  ['authors', '작가별'],
   ['stats', '통계'],
 ]
 
