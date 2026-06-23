@@ -10,6 +10,7 @@ const WORKS = [
 const MAP = {
   '김소월': { matched: ['expired'], expired: { 만료시점: '2005.01.01' }, registries: [] },
   '임철우': { matched: ['KOLAA', '별도요청'], registries: [{ source: 'KOLAA' }], 별도요청: { 갈래: '산문' } },
+  '이청준': { matched: ['KOLAA', '이용불가'], registries: [{ source: 'KOLAA' }], 이용불가: { 출처: '문학과지성사' } },
 }
 
 describe('normalizeAuthor', () => {
@@ -40,6 +41,9 @@ describe('copyrightStatuses', () => {
   })
   it('만료를 인식한다', () => {
     expect(copyrightStatuses(MAP['김소월']).map(s => s.key)).toEqual(['expired'])
+  })
+  it('전편 이용불가를 인식한다', () => {
+    expect(copyrightStatuses(MAP['이청준']).map(s => s.key)).toEqual(['KOLAA', '이용불가'])
   })
   it('레코드 없거나 빈 matched는 미확인', () => {
     expect(copyrightStatuses(null).map(s => s.key)).toEqual(['미확인'])

@@ -9,12 +9,13 @@ export function normalizeAuthor(name) {
 
 // 상태 메타: 표시 라벨과 Tailwind 색 키.
 export const STATUS = {
-  expired:       { key: 'expired',       label: '만료(자유 이용)', color: 'green' },
-  KOLAA:         { key: 'KOLAA',         label: 'KOLAA 신탁',      color: 'blue' },
-  사이에이전시:   { key: '사이에이전시',   label: '사이에이전시',     color: 'purple' },
-  남북저작권센터: { key: '남북저작권센터', label: '남북저작권센터',   color: 'orange' },
-  별도요청:       { key: '별도요청',       label: '별도 사용료 요청', color: 'red' },
-  미확인:         { key: '미확인',         label: '미확인',           color: 'gray' },
+  expired:       { key: 'expired',       label: '만료(자유 이용)',   color: 'green' },
+  이용불가:       { key: '이용불가',       label: '전편 이용불가',     color: 'red' },
+  KOLAA:         { key: 'KOLAA',         label: 'KOLAA 신탁',        color: 'blue' },
+  사이에이전시:   { key: '사이에이전시',   label: '사이에이전시',       color: 'purple' },
+  남북저작권센터: { key: '남북저작권센터', label: '남북저작권센터',     color: 'orange' },
+  별도요청:       { key: '별도요청',       label: '별도 사용료 요청',   color: 'amber' },
+  미확인:         { key: '미확인',         label: '미확인',             color: 'gray' },
 }
 
 export function lookupCopyright(authorBase, copyrightMap) {

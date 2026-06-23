@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "sync-works": "node scripts/sync-works.mjs",
+    "sync-copyright": "node scripts/sync-copyright.mjs",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
