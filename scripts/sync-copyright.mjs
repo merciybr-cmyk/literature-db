@@ -38,6 +38,19 @@ if (expPath) {
   }
 }
 
+// 1b) 저작권 만료 추가 후보 리스트 (별도 파일, 2026 기준)
+const expAddPath = findFile('저작권_만료_추가')
+if (expAddPath) {
+  for (const row of sheet(expAddPath, '추가_만료_후보')) {
+    const [번호, 저자명, 생몰연도, 사망연도, 만료시점, 상태] = row
+    if (typeof 번호 !== 'number' || !저자명) continue
+    if (상태 && String(상태).trim() !== '만료') continue
+    const r = rec(저자명); if (!r) continue
+    mark(r, 'expired')
+    if (!r.expired) r.expired = { 생몰연도, 사망연도, 만료시점, 상태 }
+  }
+}
+
 // 2) KOLAA (신탁자목록 + 이미지 등록)
 const kolaaPath = findFile('KOLAA 회원명단')
 if (kolaaPath) {
