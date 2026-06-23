@@ -4,12 +4,15 @@ import SearchPage from './pages/SearchPage'
 import StatsPage from './pages/StatsPage'
 import DuplicatesPage from './pages/DuplicatesPage'
 import ComparePage from './pages/ComparePage'
+import AuthorsPage from './pages/AuthorsPage'
 import { useWorks } from './hooks/useWorks'
+import { useCopyright } from './hooks/useCopyright'
 
 export default function App() {
   const [activePage, setActivePage] = useState('search')
   const [pendingFilters, setPendingFilters] = useState(null)
   const { works, loading, error } = useWorks()
+  const copyrightMap = useCopyright()
 
   function navigateToSearch(filters) {
     setPendingFilters(filters)
@@ -35,6 +38,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       <NavBar activePage={activePage} onNavigate={setActivePage} />
       {activePage === 'search' && <SearchPage works={works} initialFilters={pendingFilters} onFiltersApplied={() => setPendingFilters(null)} />}
+      {activePage === 'authors' && <AuthorsPage works={works} copyrightMap={copyrightMap} />}
       {activePage === 'stats' && <StatsPage works={works} onNavigateToSearch={navigateToSearch} />}
       {activePage === 'duplicates' && <DuplicatesPage works={works} />}
       {activePage === 'compare' && <ComparePage works={works} />}
