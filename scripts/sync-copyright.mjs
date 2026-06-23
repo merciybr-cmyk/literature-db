@@ -82,6 +82,20 @@ if (saiPath) {
   }
 }
 
+// 3b) 오상미디어 (CSV: 작가명)
+const osangPath = findFile('오상미디어_소속작가')
+if (osangPath) {
+  const text = readFileSync(osangPath, 'utf8').replace(/^﻿/, '')
+  const lines = text.trim().split(/\r?\n/).slice(1)
+  for (const line of lines) {
+    const 작가명 = line.split(',')[0]
+    if (!작가명) continue
+    const r = rec(작가명); if (!r) continue
+    mark(r, '오상미디어')
+    r.registries.push({ source: '오상미디어' })
+  }
+}
+
 // 4) 남북저작권센터
 const nkPath = findFile('남북저작권센터')
 if (nkPath) {

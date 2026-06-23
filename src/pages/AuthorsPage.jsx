@@ -8,6 +8,7 @@ const BADGE_CLASS = {
   red:    'bg-red-100 text-red-700 border-red-200',
   blue:   'bg-blue-100 text-blue-700 border-blue-200',
   purple: 'bg-purple-100 text-purple-700 border-purple-200',
+  teal:   'bg-teal-100 text-teal-700 border-teal-200',
   orange: 'bg-orange-100 text-orange-700 border-orange-200',
   amber:  'bg-amber-100 text-amber-700 border-amber-200',
   gray:   'bg-gray-100 text-gray-500 border-gray-200',
@@ -23,7 +24,7 @@ function Badge({ status }) {
 
 const STATUS_FILTERS = [
   STATUS.expired, STATUS.이용불가, STATUS.KOLAA, STATUS.사이에이전시,
-  STATUS.남북저작권센터, STATUS.별도요청, STATUS.미확인,
+  STATUS.오상미디어, STATUS.남북저작권센터, STATUS.별도요청, STATUS.미확인,
 ]
 
 export default function AuthorsPage({ works, copyrightMap }) {
