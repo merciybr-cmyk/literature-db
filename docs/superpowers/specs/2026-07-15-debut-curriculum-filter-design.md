@@ -32,7 +32,7 @@
 
 ## 동작 명세
 
-검색 페이지 교육과정 필터 옆에 **☑ 처음 수록만** 체크박스를 추가한다.
+검색 페이지 교육과정 필터 옆에 **☑ 첫 수록** 체크박스를 추가한다.
 
 - **체크 + 교육과정 선택됨**: 선택한 교육과정에 나오는 작품 중, 그 작품의 **데뷔
   교육과정이 선택 목록 안에 있는** 행만 남긴다. → 이전 교육과정에는 한 번도
@@ -61,7 +61,7 @@
 | `src/utils/filterWorks.js` | 시그니처에 데뷔맵 인자 추가(`filterWorks(works, filters, debutMap)`); `debutOnly`가 true고 `curriculum.length`가 있을 때 `curriculum.includes(debutMap.get(id))` 검사 한 줄 추가. 순수 함수 유지. `debutMap` 미제공 시 처음수록 조건은 무시(하위 호환). |
 | `src/pages/SearchPage.jsx` | `INITIAL_FILTERS`에 `debutOnly: false` 추가; `useMemo`로 `buildDebutMap(works)` 계산 후 `filterWorks`에 전달. |
 | `src/components/search/FilterPanel.jsx` | 체크박스 UI + 교육과정 미선택 시 안내. |
-| `src/components/search/ActiveFilters.jsx` | "처음 수록만 ✕" 칩(끄기 가능) 추가. |
+| `src/components/search/ActiveFilters.jsx` | "첫 수록 ✕" 칩(끄기 가능) 추가. |
 
 - `WorksTable`, `ExportButton`/`exportExcel`는 **변경 없음** — 필터 결과를 그대로
   받으므로 자동 반영.
