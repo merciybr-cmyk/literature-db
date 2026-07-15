@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { filterWorks, getUniqueValues } from '../utils/filterWorks'
+import { buildDebutMap } from '../utils/debut'
 
 const WORKS = [
   { 교육과정: '1차', 구분: '중등', 학년: '1', 학기: '1', 장르: '시', 작품명: '산유화', 지은이: '김소월', _authorBase: '김소월' },
@@ -57,6 +58,37 @@ describe('filterWorks', () => {
   it('복합 필터 - 교육과정 다중 + 장르', () => {
     const result = filterWorks(WORKS, { curriculum: ['1차', '3차'], genre: ['시'] })
     expect(result).toHaveLength(2)
+  })
+})
+
+describe('filterWorks - 첫 수록(debutOnly)', () => {
+  const DEBUT_WORKS = [
+    { 교육과정: '3차', 구분: '중등', 학년: '1', 장르: '소설', 작품명: '소나기', 지은이: '황순원', _authorBase: '황순원' },
+    { 교육과정: '5차', 구분: '중등', 학년: '1', 장르: '소설', 작품명: '소나기', 지은이: '황순원', _authorBase: '황순원' },
+    { 교육과정: '5차', 구분: '고등', 학년: '1', 장르: '소설', 작품명: '메밀꽃 필 무렵', 지은이: '이효석', _authorBase: '이효석' },
+  ]
+  const debutMap = buildDebutMap(DEBUT_WORKS)
+
+  it('교육과정=5차 + 첫수록: 5차 데뷔 작품만 (소나기 제외, 메밀꽃만)', () => {
+    const result = filterWorks(DEBUT_WORKS, { curriculum: ['5차'], debutOnly: true }, debutMap)
+    expect(result).toHaveLength(1)
+    expect(result[0]['작품명']).toBe('메밀꽃 필 무렵')
+  })
+  it('첫수록 꺼짐: 5차 행 모두 (소나기 5차 + 메밀꽃)', () => {
+    const result = filterWorks(DEBUT_WORKS, { curriculum: ['5차'], debutOnly: false }, debutMap)
+    expect(result).toHaveLength(2)
+  })
+  it('교육과정 미선택 + 첫수록: 무효(전체 반환)', () => {
+    const result = filterWorks(DEBUT_WORKS, { debutOnly: true }, debutMap)
+    expect(result).toHaveLength(3)
+  })
+  it('debutMap 미제공 시 첫수록 조건 무시(하위 호환)', () => {
+    const result = filterWorks(DEBUT_WORKS, { curriculum: ['5차'], debutOnly: true })
+    expect(result).toHaveLength(2)
+  })
+  it('다중 선택: 데뷔가 3·5차 중 하나인 작품의 선택 교육과정 내 행', () => {
+    const result = filterWorks(DEBUT_WORKS, { curriculum: ['3차', '5차'], debutOnly: true }, debutMap)
+    expect(result).toHaveLength(3)
   })
 })
 

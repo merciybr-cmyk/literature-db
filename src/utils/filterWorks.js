@@ -1,6 +1,6 @@
 import { toChosung, isChosungQuery } from './chosung'
 
-export function filterWorks(works, { curriculum = [], division = [], genre = [], grade = [], system = [], publisher = [], query = '' } = {}) {
+export function filterWorks(works, { curriculum = [], division = [], genre = [], grade = [], system = [], publisher = [], query = '', debutOnly = false } = {}, debutMap = null) {
   const trimmedQuery = query.trim()
   const chosungMode = isChosungQuery(trimmedQuery)
   const q = trimmedQuery.toLowerCase()
@@ -8,6 +8,11 @@ export function filterWorks(works, { curriculum = [], division = [], genre = [],
 
   return works.filter(work => {
     if (curriculum.length && !curriculum.includes(work['교육과정'])) return false
+    // 첫 수록: 작품 데뷔 교육과정이 선택 목록에 있어야 통과. 교육과정 미선택·맵 미제공이면 무효.
+    if (debutOnly && curriculum.length && debutMap) {
+      const debut = debutMap.get(`${work['작품명']}__${work._authorBase}`)
+      if (!curriculum.includes(debut)) return false
+    }
     if (division.length && !division.includes(work['구분'])) return false
     if (genre.length && !genre.includes(work['장르'])) return false
     if (grade.length && !grade.includes(work['학년'])) return false
