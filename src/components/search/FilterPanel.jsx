@@ -53,6 +53,20 @@ export default function FilterPanel({ works, filters, onChange }) {
             />
           </div>
         ))}
+        <div className="flex flex-col justify-end gap-1">
+          <label className="inline-flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={filters.debutOnly || false}
+              onChange={e => update('debutOnly', e.target.checked)}
+              className="rounded border-gray-300"
+            />
+            첫 수록
+          </label>
+          {filters.debutOnly && !(filters.curriculum?.length) && (
+            <span className="text-xs text-amber-600">교육과정을 먼저 선택하세요</span>
+          )}
+        </div>
       </div>
     </div>
   )

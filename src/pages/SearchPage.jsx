@@ -5,8 +5,9 @@ import ActiveFilters from '../components/search/ActiveFilters'
 import WorksTable from '../components/search/WorksTable'
 import ExportButton from '../components/search/ExportButton'
 import { filterWorks } from '../utils/filterWorks'
+import { buildDebutMap } from '../utils/debut'
 
-const INITIAL_FILTERS = { curriculum: [], division: [], genre: [], grade: [], system: [], publisher: [], query: '' }
+const INITIAL_FILTERS = { curriculum: [], division: [], genre: [], grade: [], system: [], publisher: [], query: '', debutOnly: false }
 
 export default function SearchPage({ works, initialFilters, onFiltersApplied }) {
   const [filters, setFilters] = useState(INITIAL_FILTERS)
@@ -22,7 +23,8 @@ export default function SearchPage({ works, initialFilters, onFiltersApplied }) 
     setFilters(INITIAL_FILTERS)
   }
 
-  const filtered = useMemo(() => filterWorks(works, filters), [works, filters])
+  const debutMap = useMemo(() => buildDebutMap(works), [works])
+  const filtered = useMemo(() => filterWorks(works, filters, debutMap), [works, filters, debutMap])
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-4">

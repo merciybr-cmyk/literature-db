@@ -18,19 +18,24 @@ export default function ActiveFilters({ filters, onChange }) {
   if (filters.query?.trim()) {
     chips.push({ key: 'query', value: filters.query, label: `검색: ${filters.query}` })
   }
+  if (filters.debutOnly) {
+    chips.push({ key: 'debutOnly', value: 'debutOnly', label: '첫 수록' })
+  }
 
   if (chips.length === 0) return null
 
   function removeChip(chip) {
     if (chip.key === 'query') {
       onChange({ ...filters, query: '' })
+    } else if (chip.key === 'debutOnly') {
+      onChange({ ...filters, debutOnly: false })
     } else {
       onChange({ ...filters, [chip.key]: filters[chip.key].filter(v => v !== chip.value) })
     }
   }
 
   function clearAll() {
-    const cleared = { query: '' }
+    const cleared = { query: '', debutOnly: false }
     for (const key of Object.keys(FILTER_LABELS)) cleared[key] = []
     onChange({ ...filters, ...cleared })
   }
