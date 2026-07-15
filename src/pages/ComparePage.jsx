@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { getUniqueValues } from '../utils/filterWorks'
 import { orderCurricula } from '../constants'
 import { compareCurricula } from '../utils/compareCurricula'
+import { exportComparisonToExcel } from '../utils/exportExcel'
 import MultiSelectDropdown from '../components/search/MultiSelectDropdown'
 import WorkDetailModal from '../components/search/WorkDetailModal'
 
@@ -64,6 +65,12 @@ export default function ComparePage({ works }) {
     setBSet(aSet)
   }
 
+  function handleExport() {
+    const label = TABS.find(t => t.key === tab)?.label ?? '비교'
+    const safe = label.replace(/[\\/:*?"<>|,\s]+/g, '_')
+    exportComparisonToExcel(activeRows, `교육과정비교_${safe}.xlsx`)
+  }
+
   return (
     <>
       <main className="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-4">
@@ -103,21 +110,31 @@ export default function ComparePage({ works }) {
           ))}
         </div>
 
-        {/* 보기 방식 전환 */}
-        <div className="flex items-center gap-1">
-          {VIEW_MODES.map(m => (
-            <button
-              key={m.key}
-              onClick={() => setViewMode(m.key)}
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${
-                viewMode === m.key
-                  ? 'bg-sky-600 text-white border-sky-600'
-                  : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
-              }`}
-            >
-              {m.label}
-            </button>
-          ))}
+        {/* 보기 방식 전환 + 엑셀 내보내기 */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1">
+            {VIEW_MODES.map(m => (
+              <button
+                key={m.key}
+                onClick={() => setViewMode(m.key)}
+                className={`px-3 py-1 text-sm rounded-full border transition-colors ${
+                  viewMode === m.key
+                    ? 'bg-sky-600 text-white border-sky-600'
+                    : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={handleExport}
+            disabled={activeRows.length === 0}
+            title="현재 탭의 목록을 엑셀로 내보내기"
+            className="px-3 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5 whitespace-nowrap"
+          >
+            ⬇ Excel 내보내기
+          </button>
         </div>
 
         {/* 목록 */}
