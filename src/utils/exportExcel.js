@@ -1,9 +1,11 @@
 import * as XLSX from 'xlsx'
+import { subjectOf } from './parseCSV'
 
 export function exportToExcel(works, filename = '문학작품_검색결과.xlsx') {
   const rows = works.map(w => ({
     '교육과정': w['교육과정'],
     '구분': w['구분'],
+    '과목': w._subject ?? subjectOf(w),
     '학년': w['학년'],
     '학기': w['학기'],
     '교과서명': w['교과서명'],
