@@ -1,6 +1,7 @@
 import { toChosung, isChosungQuery } from './chosung'
+import { subjectOf } from './parseCSV'
 
-export function filterWorks(works, { curriculum = [], division = [], genre = [], grade = [], system = [], publisher = [], query = '', debutOnly = false } = {}, debutMap = null) {
+export function filterWorks(works, { curriculum = [], division = [], subject = [], genre = [], grade = [], system = [], publisher = [], query = '', debutOnly = false } = {}, debutMap = null) {
   const trimmedQuery = query.trim()
   const chosungMode = isChosungQuery(trimmedQuery)
   const q = trimmedQuery.toLowerCase()
@@ -14,6 +15,7 @@ export function filterWorks(works, { curriculum = [], division = [], genre = [],
       if (!curriculum.includes(debut)) return false
     }
     if (division.length && !division.includes(work['구분'])) return false
+    if (subject.length && !subject.includes(work._subject ?? subjectOf(work))) return false
     if (genre.length && !genre.includes(work['장르'])) return false
     if (grade.length && !grade.includes(work['학년'])) return false
     if (system.length && !system.includes(work['체제'])) return false

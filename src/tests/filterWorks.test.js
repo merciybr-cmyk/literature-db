@@ -3,9 +3,9 @@ import { filterWorks, getUniqueValues } from '../utils/filterWorks'
 import { buildDebutMap } from '../utils/debut'
 
 const WORKS = [
-  { 교육과정: '1차', 구분: '중등', 학년: '1', 학기: '1', 장르: '시', 작품명: '산유화', 지은이: '김소월', _authorBase: '김소월' },
-  { 교육과정: '2차', 구분: '고등', 학년: '1', 학기: '2', 장르: '소설', 작품명: '사랑손님과 어머니', 지은이: '주요섭', _authorBase: '주요섭' },
-  { 교육과정: '3차', 구분: '중등', 학년: '2', 학기: '1', 장르: '시', 작품명: '가지 않은 길', 지은이: '로버트 프로스트(피천득 옮김)', _authorBase: '로버트 프로스트' },
+  { 교육과정: '1차', 구분: '중등', 학년: '1', 학기: '1', 교과서명: '중학 국어 1-1', 장르: '시', 작품명: '산유화', 지은이: '김소월', _authorBase: '김소월', _subject: '국어' },
+  { 교육과정: '2차', 구분: '고등', 학년: '1', 학기: '2', 교과서명: '문학', 장르: '소설', 작품명: '사랑손님과 어머니', 지은이: '주요섭', _authorBase: '주요섭', _subject: '문학' },
+  { 교육과정: '3차', 구분: '중등', 학년: '2', 학기: '1', 교과서명: '중학 국어 2-1', 장르: '시', 작품명: '가지 않은 길', 지은이: '로버트 프로스트(피천득 옮김)', _authorBase: '로버트 프로스트', _subject: '국어' },
 ]
 
 describe('filterWorks', () => {
@@ -31,6 +31,23 @@ describe('filterWorks', () => {
   })
   it('구분 필터 - 다중 선택', () => {
     expect(filterWorks(WORKS, { division: ['중등', '고등'] })).toHaveLength(3)
+  })
+
+  it('과목 필터 - 문학 단일 선택', () => {
+    const result = filterWorks(WORKS, { subject: ['문학'] })
+    expect(result).toHaveLength(1)
+    expect(result[0]['작품명']).toBe('사랑손님과 어머니')
+  })
+  it('과목 필터 - 국어 단일 선택', () => {
+    expect(filterWorks(WORKS, { subject: ['국어'] })).toHaveLength(2)
+  })
+  it('과목 필터 - _subject 없으면 교과서명으로 폴백', () => {
+    const noDerived = [{ 교과서명: '문학Ⅱ', 작품명: '홍길동전', 지은이: '허균' }]
+    expect(filterWorks(noDerived, { subject: ['문학'] })).toHaveLength(1)
+    expect(filterWorks(noDerived, { subject: ['국어'] })).toHaveLength(0)
+  })
+  it('복합 필터 - 과목 + 학교급', () => {
+    expect(filterWorks(WORKS, { subject: ['국어'], division: ['중등'] })).toHaveLength(2)
   })
 
   it('장르 필터 - 단일 선택', () => {
