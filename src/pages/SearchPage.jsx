@@ -7,7 +7,7 @@ import ExportButton from '../components/search/ExportButton'
 import { filterWorks } from '../utils/filterWorks'
 import { buildDebutMap } from '../utils/debut'
 
-const INITIAL_FILTERS = { curriculum: [], division: [], genre: [], grade: [], system: [], publisher: [], query: '', debutOnly: false }
+const INITIAL_FILTERS = { curriculum: [], division: [], subject: [], genre: [], grade: [], system: [], publisher: [], query: '', debutOnly: false }
 
 export default function SearchPage({ works, initialFilters, onFiltersApplied }) {
   const [filters, setFilters] = useState(INITIAL_FILTERS)

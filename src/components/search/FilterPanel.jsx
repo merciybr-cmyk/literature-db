@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { getUniqueValues } from '../../utils/filterWorks'
-import { GENRES, DIVISIONS, orderCurricula } from '../../constants'
+import { GENRES, DIVISIONS, SUBJECTS, orderCurricula } from '../../constants'
 import MultiSelectDropdown from './MultiSelectDropdown'
 
 export default function FilterPanel({ works, filters, onChange }) {
@@ -23,7 +23,8 @@ export default function FilterPanel({ works, filters, onChange }) {
   const FILTER_CONFIGS = [
     { key: 'curriculum', label: '교육과정', options: curricula },
     { key: 'system', label: '체제', options: systems },
-    { key: 'division', label: '구분', options: DIVISIONS },
+    { key: 'division', label: '학교급', options: DIVISIONS },
+    { key: 'subject', label: '과목', options: SUBJECTS },
     { key: 'genre', label: '장르', options: GENRES },
     { key: 'grade', label: '학년', options: grades },
     { key: 'publisher', label: '출판사', options: publishers, panelClassName: 'w-max' },

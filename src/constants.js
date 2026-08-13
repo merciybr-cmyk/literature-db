@@ -10,6 +10,8 @@ export const GENRES = ['시', '소설', '수필', '시조', '고전산문', '고
 
 export const DIVISIONS = ['중등', '고등']
 
+export const SUBJECTS = ['국어', '문학']
+
 // 주어진 교육과정 집합을 정해진 순서대로 정렬하되,
 // 목록에 없는 값은 뒤에 붙여 누락을 방지한다.
 export function orderCurricula(present) {

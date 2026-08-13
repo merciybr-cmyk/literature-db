@@ -1,7 +1,8 @@
 const FILTER_LABELS = {
   curriculum: '교육과정',
   system: '체제',
-  division: '구분',
+  division: '학교급',
+  subject: '과목',
   genre: '장르',
   grade: '학년',
   publisher: '출판사',
