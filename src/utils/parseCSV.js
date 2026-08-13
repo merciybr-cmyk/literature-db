@@ -23,7 +23,12 @@ export function extractAuthorBase(author) {
   return author.replace(/\(.*?\)/g, '').trim()
 }
 
-// 검색용 파생 필드(작가 기준명·초성)를 작품 객체에 부여한다.
+// 교과서명으로 과목을 도출한다. '문학' 포함이면 문학, 그 외는 국어.
+export function subjectOf(work) {
+  return (work['교과서명'] || '').includes('문학') ? '문학' : '국어'
+}
+
+// 검색용 파생 필드(작가 기준명·초성·과목)를 작품 객체에 부여한다.
 export function withDerivedFields(work) {
   const authorBase = extractAuthorBase(work['지은이'])
   return {
@@ -31,6 +36,7 @@ export function withDerivedFields(work) {
     _authorBase: authorBase,
     _titleChosung: toChosung(work['작품명']),
     _authorChosung: toChosung(authorBase),
+    _subject: subjectOf(work),
   }
 }
 
