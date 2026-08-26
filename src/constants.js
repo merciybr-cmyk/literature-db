@@ -6,7 +6,7 @@ export const CURRICULUM_ORDER = [
   '2007개정', '2009개정', '2015개정', '2022개정',
 ]
 
-export const GENRES = ['시', '소설', '수필', '시조', '고전산문', '고전운문', '극본']
+export const GENRES = ['시', '소설', '수필', '고전산문', '고전운문', '극본']
 
 export const DIVISIONS = ['중등', '고등']
 
